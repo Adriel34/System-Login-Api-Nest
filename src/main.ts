@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,16 @@ async function bootstrap() {
         forbidNonWhitelisted: true,
       }),
     );
-  await app.listen(3000);
+
+    const corsOptions: CorsOptions = {
+      origin: true,
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      preflightContinue: false,
+      optionsSuccessStatus: 204,
+    };
+  
+    app.enableCors(corsOptions);
+
+  await app.listen(3333);
 }
 bootstrap();
