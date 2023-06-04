@@ -50,9 +50,10 @@ export class UserService {
 
   async updateUser(data: User) {
     const { id, name, email } = data;
+
   
     const updatedContact = await this.prisma.user.update({
-      where: { id },
+      where: { id: id },
       data: {
         name: name || undefined,
         email: email || undefined,

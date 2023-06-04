@@ -1,6 +1,7 @@
 import {
   ExecutionContext,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
@@ -31,11 +32,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     const canActivatePromise = canActivate as Promise<boolean>;
 
-    return canActivatePromise.catch((error) => {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-
+    return canActivatePromise.catch(() => {
       throw new UnauthorizedException();
     });
   }

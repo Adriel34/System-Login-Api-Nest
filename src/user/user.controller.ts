@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
-import { User } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
@@ -21,6 +20,8 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+
+ 
   @Get('all-users')
   findAllUsers(@Headers('authorization') token: string) {
     return this.userService.findAllUsers(token);
@@ -28,11 +29,13 @@ export class UserController {
 
   @Delete('delete-user/:id')
   deleteUser(@Param('id') id: number) {
+       //@TODO CORRIGE ERRO 500
     return this.userService.deleteUser(id);
   }
 
   @Patch('update-user')
-  updateUser(@Param() userData: User) {
-    return this.userService.updateUser(userData);
+  updateUser(@Body() body: any) {
+    //@TODO ADICIONA TIPAGEM
+    return this.userService.updateUser(body); 
   }
 }
